@@ -8,9 +8,13 @@ import sys
 from flask import Flask
 from service import config
 from service.common import log_handlers
+from flask_talisman import Talisman
+from flask_cors import CORS
 
 # Create Flask application
 app = Flask(__name__)
+talisman = Talisman(app)
+cors = CORS(app)
 app.config.from_object(config)
 
 # Import the routes After the Flask app is created
@@ -29,9 +33,9 @@ app.logger.info(70 * "*")
 
 try:
     models.init_db(app)  # make our database tables
-except Exception as error:  # pylint: disable=broad-except # pragma: no cover
+except Exception as error:  # pylint: disable=broad-except
     app.logger.critical("%s: Cannot continue", error)
     # gunicorn requires exit code 4 to stop spawning workers when they die
-    sys.exit(4) # pragma: no cover
+    sys.exit(4)
 
 app.logger.info("Service initialized!")
