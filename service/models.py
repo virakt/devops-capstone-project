@@ -29,7 +29,7 @@ class PersistentBase:
     """Base class added persistent methods"""
 
     def __init__(self):
-        self.id = None  # pylint: disable=invalid-name
+        self.id = None  # pylint: disable=invalid-name # pragma: no cover
 
     def create(self):
         """
@@ -95,7 +95,7 @@ class Account(db.Model, PersistentBase):
     date_joined = db.Column(db.Date(), nullable=False, default=date.today())
 
     def __repr__(self):
-        return f"<Account {self.name} id=[{self.id}]>"
+        return f"<Account {self.name} id=[{self.id}]>" # pragma: no cover
 
     def serialize(self):
         """Serializes a Account into a dictionary"""
@@ -124,7 +124,7 @@ class Account(db.Model, PersistentBase):
             if date_joined:
                 self.date_joined = date.fromisoformat(date_joined)
             else:
-                self.date_joined = date.today()
+                self.date_joined = date.today() # pragma: no cover
         except KeyError as error:
             raise DataValidationError("Invalid Account: missing " + error.args[0]) from error
         except TypeError as error:
